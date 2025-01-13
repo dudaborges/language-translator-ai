@@ -3,6 +3,7 @@ import os
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
 
 
 load_dotenv()
@@ -15,8 +16,15 @@ messages = [
 
 model = ChatOpenAI(model='gpt-4o-mini')
 parser = StrOutputParser()
-chain = model | parser
 
-text_response = chain.invoke(messages)
+template_message = ChatPromptTemplate.from_messages([
+    ('system', 'Translate the text to {language}'),
+    ('user', '{text}'),
+])
 
-print(text_response)
+chain = template_message | model | parser
+
+
+# text_response = chain.invoke({'language': 'inglês', 'text': 'Olá, mundo!'})
+
+# print(text_response)
