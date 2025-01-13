@@ -1,11 +1,8 @@
-from main import chain
 from fastapi import FastAPI
 from langserve import add_routes
+from main import chain
 
-app = FastAPI(
-    title='My IA App',
-    description='Translate the text'
-)
+app = FastAPI(title='My IA App', description='Translate the text')
 
 add_routes(app, chain, path='/translate')
 
